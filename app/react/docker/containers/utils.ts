@@ -69,6 +69,10 @@ function createStatus(statusText = ''): ContainerStatus {
     return ContainerStatus.Paused;
   }
 
+  if (status.includes(ContainerStatus.Restarting)) {
+    return ContainerStatus.Unhealthy
+  }
+
   if (status.includes(ContainerStatus.Dead)) {
     return ContainerStatus.Dead;
   }

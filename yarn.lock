@@ -8154,9 +8154,9 @@ caniuse-api@^3.0.0:
     lodash.uniq "^4.5.0"
 
 caniuse-lite@^1.0.0, caniuse-lite@^1.0.30001181, caniuse-lite@^1.0.30001449, caniuse-lite@^1.0.30001503, caniuse-lite@^1.0.30001538, caniuse-lite@^1.0.30001541, caniuse-lite@^1.0.30001565:
-  version "1.0.30001579"
-  resolved "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001579.tgz"
-  integrity sha512-u5AUVkixruKHJjw/pj9wISlcMpgFWzSrczLZbrqBSxukQixmg0SJ5sZTpvaFvxU0HoQKd4yoyAogyrAz9pzJnA==
+  version "1.0.30001713"
+  resolved "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001713.tgz"
+  integrity sha512-wCIWIg+A4Xr7NfhTuHdX+/FKh3+Op3LBbSp2N5Pfx6T/LhdQy3GTyoTg48BReaW/MyMNZAkTadsBtai3ldWK0Q==
 
 capital-case@^1.0.4:
   version "1.0.4"
@@ -13152,7 +13152,7 @@ markdown-to-jsx@^7.7.4:
   version "7.7.4"
   resolved "https://registry.yarnpkg.com/markdown-to-jsx/-/markdown-to-jsx-7.7.4.tgz#507d17c15af72ddf970fca84a95f0243244fcfa9"
   integrity sha512-1bSfXyBKi+EYS3YY+e0Csuxf8oZ3decdfhOav/Z7Wrk89tjudyL5FOmwZQUoy0/qVXGUl+6Q3s2SWtpDEWITfQ==
-  
+
 math-intrinsics@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/math-intrinsics/-/math-intrinsics-1.1.0.tgz#a0dd74be81e2aa5c2f27e65ce283605ee4e2b7f9"

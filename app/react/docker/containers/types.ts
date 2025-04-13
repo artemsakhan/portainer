@@ -1,25 +1,26 @@
-import { ResourceControlViewModel } from '@/react/portainer/access-control/models/ResourceControlViewModel';
+import {ResourceControlViewModel} from '@/react/portainer/access-control/models/ResourceControlViewModel';
 
-import { DockerContainerResponse } from './types/response';
+import {DockerContainerResponse} from './types/response';
 
 export enum ContainerStatus {
-  Paused = 'paused',
-  Stopped = 'stopped',
-  Created = 'created',
-  Healthy = 'healthy',
-  Unhealthy = 'unhealthy',
-  Starting = 'starting',
-  Running = 'running',
-  Dead = 'dead',
-  Exited = 'exited',
+    Paused = 'paused',
+    Stopped = 'stopped',
+    Created = 'created',
+    Healthy = 'healthy',
+    Unhealthy = 'unhealthy',
+    Starting = 'starting',
+    Running = 'running',
+    Restarting = 'restarting',
+    Dead = 'dead',
+    Exited = 'exited',
 }
 
 export type QuickAction = 'attach' | 'exec' | 'inspect' | 'logs' | 'stats';
 
 export interface Port {
-  host?: string;
-  public: number;
-  private: number;
+    host?: string;
+    public: number;
+    private: number;
 }
 
 export type ContainerId = string;
@@ -28,14 +29,14 @@ export type ContainerId = string;
  * Computed fields from Container List Raw data
  */
 type DecoratedDockerContainer = {
-  NodeName: string;
-  ResourceControl?: ResourceControlViewModel;
-  IP: string;
-  StackName?: string;
-  Status: ContainerStatus;
-  Ports: Port[];
-  StatusText: string;
-  Gpus: string;
+    NodeName: string;
+    ResourceControl?: ResourceControlViewModel;
+    IP: string;
+    StackName?: string;
+    Status: ContainerStatus;
+    Ports: Port[];
+    StatusText: string;
+    Gpus: string;
 };
 
 /**
@@ -46,12 +47,12 @@ type DecoratedDockerContainer = {
  * Raw details is ContainerDetailsJSON
  */
 export type ContainerListViewModel = DecoratedDockerContainer &
-  Omit<DockerContainerResponse, keyof DecoratedDockerContainer>;
+    Omit<DockerContainerResponse, keyof DecoratedDockerContainer>;
 
 export type ContainerLogsParams = {
-  stdout?: boolean;
-  stderr?: boolean;
-  timestamps?: boolean;
-  since?: number;
-  tail?: number;
+    stdout?: boolean;
+    stderr?: boolean;
+    timestamps?: boolean;
+    since?: number;
+    tail?: number;
 };

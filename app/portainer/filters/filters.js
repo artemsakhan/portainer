@@ -35,6 +35,13 @@ export function isoDateFromTimestamp(timestamp) {
   return moment.unix(timestamp).format(TIME_FORMAT);
 }
 
+export function isoDateFromTimestampTz(timestampTz) {
+  return moment(timestampTz).unix()
+}
+export function isoDateFromNow(timestamp) {
+  return moment.unix(timestamp).fromNow();
+}
+
 export function isoDate(date, format = TIME_FORMAT) {
   return moment(date).format(format);
 }
