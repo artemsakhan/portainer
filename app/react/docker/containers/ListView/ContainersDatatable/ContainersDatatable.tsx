@@ -17,7 +17,9 @@ import {ContainersDatatableSettings} from './ContainersDatatableSettings';
 import {RowProvider} from './RowContext';
 import {useColumns} from './columns';
 import {createStore} from './datatable-store';
-import {useContainersWithStats} from "@/react/docker/containers/queries/useContainers";
+import {useContainers} from "@/react/docker/containers/queries/useContainers";
+import {useCallback, useEffect, useState} from "react";
+import {useContainerStatsSSE} from "@/react/docker/containers/queries/useContainerStatsSSE";
 
 const storageKey = 'containers';
 const settingsStore = createStore(storageKey);
@@ -43,11 +45,33 @@ export function ContainersDatatable({
     const columns = useColumns(isHostColumnVisible, isGPUsColumnVisible);
     const tableState = useTableState(settingsStore, storageKey);
 
-    const containersQuery = useContainersWithStats(environment.Id, {
-        autoRefreshRate: tableState.autoRefreshRate * 1000,
+    const containersQuery = useContainers(environment.Id, {
+        // autoRefreshRate: tableState.autoRefreshRate * 1000,
     });
 
-    console.log('DATA', containersQuery.data)
+    const [containers, setContainers] = useState<ContainerListViewModel[]>([]);
+
+    // Memoize onMessage to avoid unnecessary updates
+    const handleMessage = useCallback((incomingStats: any) => {
+        setContainers((prev) =>
+            prev.map((container) =>
+                container.Id === incomingStats.cid
+                    ? {...container, Stats: incomingStats.stats}
+                    : container
+            )
+        );
+    }, []);
+
+    // Use the mock SSE
+    useContainerStatsSSE(environment.Id, handleMessage);
+
+    // Initial load
+    useEffect(() => {
+        if (containersQuery.data) {
+            setContainers(containersQuery.data);
+        }
+    }, [containersQuery.data]);
+
 
     return (
         <RowProvider context={{environment}}>
@@ -87,7 +111,7 @@ export function ContainersDatatable({
                             </Table.SettingsMenu>
                         </>
                     )}
-                    dataset={containersQuery.data || []}
+                    dataset={containers || []}
                     extendTableOptions={mergeOptions(
                         withColumnFilters(
                             tableState.columnFilters,

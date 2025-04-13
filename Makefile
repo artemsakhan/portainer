@@ -129,29 +129,23 @@ docs-validate: docs-build ## Validate docs
 help:  ## Display this help
 	@awk 'BEGIN {FS = ":.*##"; printf "Usage:\n  make \033[36m<target>\033[0m\n"} /^[a-zA-Z_-]+:.*?##/ { printf "  \033[36m%-15s\033[0m %s\n", $$1, $$2 } /^##@/ { printf "\n\033[1m%s\033[0m\n", substr($$0, 5) } ' $(MAKEFILE_LIST)
 
-.PHONY: run-local-build
-run-local-build:  ## Display this help
-	docker run -it --rm -v "$(pwd):/src" --entrypoint /bin/bash portainer-build
-
-.PHONY: build-local-image
-build-local-image:  ## Build the local portainer-build docker image
-	docker build -t portainer-build .
-
-.PHONY: cp-binary
-cp-binary:  ## Build the local portainer-build docker image
+##@ Helpers
+.PHONY: build-local-server
+build-local-server:  ## Display this help
+	docker build -t portainer-build . && \
 	docker create --name portainer-tmp portainer-build && \
-    docker cp portainer-tmp:/portainer ./portainer && \
-    docker rm portainer-tmp
+	docker cp portainer-tmp:/portainer ./dist/portainer && \
+	docker rm portainer-tmp && \
+	docker build -f build/linux/Dockerfile -t local-server .
 
-.PHONY: build-portainer-docker
-build-portainer-docker:  ## Build the local portainer-build docker image
-	 docker build --no-cache -f build/linux/alpine.Dockerfile -t asakhan/portainer .
-
-.PHONY: run-portainer-docker
-run-portainer-docker:  ## Build the local portainer-build docker image
-	 docker build --no-cache -f build/linux/alpine.Dockerfile -t asakhan/portainer .
-
-
+.PHONY: deploy-local
+deploy-local:  ## Build the local portainer-build docker image
+	docker buildx build --no-cache --platform linux/amd64 -t portainer-build . --load && \
+	docker create --name portainer-tmp portainer-build && \
+    docker cp portainer-tmp:/portainer ./dist/portainer && \
+    docker rm portainer-tmp && \
+    export NODE_ENV=$(ENV) && yarn build --config $(WEBPACK_CONFIG) && \
+    docker buildx build --platform linux/amd64 --no-cache -f build/linux/Dockerfile -t salemdev/portainer . --push
 
 
 

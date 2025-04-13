@@ -12,8 +12,6 @@ import {withAgentTargetHeader, withFiltersQueryParam,} from '../../proxy/queries
 
 import {Filters} from './types';
 import {queryKeys} from './query-keys';
-import {inspectContainer} from "@/react/docker/containers/queries/useContainerInspect";
-import moment from "moment";
 import {containerStats} from "@/react/docker/containers/queries/useContainerStats";
 
 interface UseContainers {
